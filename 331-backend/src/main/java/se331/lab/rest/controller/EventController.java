@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import se331.lab.rest.entity.Event;
+import org.springframework.http.HttpHeaders;
 
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -94,13 +95,15 @@ public class EventController {
         page = page == null ? 1 : page;
         Integer firstIndex = (page - 1) * perPage;
         List<Event> output = new ArrayList<>();
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set("x-total-count", String.valueOf(eventList.size()));
         try {
             for (int i = firstIndex; i < firstIndex + perPage; i++) {
                 output.add(eventList.get(i));
             }
-            return ResponseEntity.ok(output);
+            return new ResponseEntity<>(output, responseHeader, HttpStatus.OK);
         }catch (IndexOutOfBoundsException ex){
-            return ResponseEntity.ok(output);
+            return new ResponseEntity<>(output, responseHeader, HttpStatus.OK);
         }
     }
     @GetMapping("events/{id}")
