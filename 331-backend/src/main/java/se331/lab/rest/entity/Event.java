@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
+
 public class Event {
     Long id;
     String category;
@@ -13,6 +14,6 @@ public class Event {
     String location;
     String date;
     String time;
-    Boolean petAllowed;
     String organizer;
+    Boolean petsAllowed;
 }
